@@ -1,0 +1,6 @@
+0.01:  214.8652,185.9654,194.3529,
+ParticipantNo: 123
+Repetition?: Full
+DSPType: 1
+Encoding Tours: 2
+!!1_dsp1_14
