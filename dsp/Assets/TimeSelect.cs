@@ -20,7 +20,7 @@ public class TimeSelect : MonoBehaviour
     void Update()
     {
         trialTime = float.Parse(inputField.text);
-        Debug.Log("This is the trial time: " + trialTime);
+        //Debug.Log("This is the trial time: " + trialTime);
         PlayerPrefs.SetFloat("trialTime", trialTime);
     }
 }

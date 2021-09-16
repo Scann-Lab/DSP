@@ -7,6 +7,20 @@ public class TrainingLevel : MonoBehaviour {
 
 	public UnityEngine.UI.Text instructionText;
 	public Text moveText;
+	public Text trainingTaskInstructions;
+	//Import cubes for training task
+	public GameObject cube1;
+	public GameObject cube2;
+	public GameObject cube3;
+	public GameObject cube4;
+
+	public bool writeToDisk = true;
+	private Transform playerTransform;
+	double currTime = 0.0;
+	string directory;
+	string directory2;
+
+
 	// public Text instructionText;
 
 	int i = 0;
@@ -15,9 +29,55 @@ public class TrainingLevel : MonoBehaviour {
 
 	int count = 0;
 	int count1 = 0;
+	int trainingTask = 0;
+
 
 	void Start(){
 		GameControl.control.currentLevelPosition = new Vector3 (40f, -19.83f, 43.13f);
+		cube1.SetActive(false);
+		cube2.SetActive(false);
+		cube3.SetActive(false);
+		cube4.SetActive(false);
+		PlayerPrefs.SetInt("trainingTask", trainingTask);
+		string name = GameControl.control.participantNumber;
+
+		//writing data
+		directory = Application.dataPath +
+		"\\..\\Participant_" + name +
+		"_Date_" + DateTime.Now.ToString("yyyy-MM-dd-hh-mm") +
+		"Training.txt";
+		// Debug.Log(directory);
+			using (System.IO.StreamWriter file = new System.IO.StreamWriter(directory, true))
+			{
+					//write in elements
+					file.WriteLine ("ParticipantNo: " + GameControl.control.participantNumber);
+					if(PlayerPrefs.GetInt("UsingGamePad") == 1){
+						file.WriteLine ("Controller type: Gamepad");
+					}else if(PlayerPrefs.GetInt("UsingGamePad") == 0){
+						file.WriteLine ("Controller type: Keyboard and Mouse");
+					}
+
+				file.WriteLine("Training Level:");
+			}
+
+		directory2 = Application.dataPath +
+		"\\..\\Participant_" + name +
+		"_Date_" + DateTime.Now.ToString("yyyy-MM-dd-hh-mm") +
+		"TrainingGoals.txt";
+		// Debug.Log(directory);
+			using (System.IO.StreamWriter file = new System.IO.StreamWriter(directory2, true))
+			{
+					//write in elements
+					file.WriteLine ("ParticipantNo: " + GameControl.control.participantNumber);
+					if(PlayerPrefs.GetInt("UsingGamePad") == 1){
+						file.WriteLine ("Controller type: Gamepad");
+					}else if(PlayerPrefs.GetInt("UsingGamePad") == 0){
+						file.WriteLine ("Controller type: Keyboard and Mouse");
+					}
+
+				file.WriteLine("Training Level:");
+			}
+
 		// instructionText.enabled = false;
 	}
 
@@ -26,9 +86,19 @@ public class TrainingLevel : MonoBehaviour {
 		//If G is pressed any time during the training phase, goes to the learning phase
 		if(Time.timeSinceLevelLoad > 30){
 			instructionText.enabled = true;
-			instructionText.text = "When you are ready to begin, please press G.";
+			instructionText.text = "When you are ready to begin the experiment, please press G.";
 		}else{
 			instructionText.enabled = false;
+		}
+
+		//Go to environment Task
+		PracticeEnvironmentTask();
+		trainingTask = PlayerPrefs.GetInt("trainingTask");
+
+		if(Input.GetKey(KeyCode.T)){
+			// Debug.Log("Clicking T");
+			trainingTask = 1;
+			PlayerPrefs.SetInt("trainingTask", trainingTask);
 		}
 		if (Input.GetKey (KeyCode.G)) {
 			GameControl.control.goToLearning ();
@@ -66,7 +136,53 @@ public class TrainingLevel : MonoBehaviour {
 			pressed = true;
 
 		}
+			playerTransform = GameObject.Find ("Player").transform;
+			Vector3 playerPos = playerTransform.position;
+			Quaternion playerRot = playerTransform.rotation;
+			using (System.IO.StreamWriter file = new System.IO.StreamWriter (directory, true)) {
+				currTime += Time.deltaTime;
+				file.WriteLine (Math.Round (currTime, 2) + ":  " + playerPos.x + "," + playerPos.z + "," + playerRot.eulerAngles.y);
+				//Debug.Log ("WROTE THE STEP: " + Math.Round (currTime, 2) + ":  " + playerPos.x + "," + playerPos.z);
+			}
+
 	}
+
+	void PracticeEnvironmentTask(){
+		//Debug.Log("I am in new task");
+		//Debug.Log("trainingTask value: " + trainingTask);
+		if(trainingTask == 1){
+			cube1.SetActive(true);
+			trainingTaskInstructions.text = "Please navigate to box 1.";
+
+			//OnTriggerEnter(cube1collider);
+		}
+		else if(trainingTask == 2){
+			cube1.SetActive(false);
+			cube2.SetActive(true);
+			trainingTaskInstructions.text = "Please navigate to box 2.";
+
+			//OnTriggerEnter(cube2collider);
+		}
+		else if(trainingTask == 3){
+			cube2.SetActive(false);
+			cube3.SetActive(true);
+			trainingTaskInstructions.text = "Please navigate to box 3.";
+
+			//OnTriggerEnter(cube3collider);
+		}
+		else if(trainingTask == 4){
+			cube3.SetActive(false);
+			cube4.SetActive(true);
+			trainingTaskInstructions.text = "Please navigate to box 4.";
+			//OnTriggerEnter(cube4collider);
+		}
+		else if(trainingTask == 5){
+			cube4.SetActive(false);
+			trainingTaskInstructions.text = "Press T to restart the training task.";
+		}
+
+	}
+
 
 	// IEnumerator ShowInstructions(){
 	// 	yield return new WaitForSeconds (15);
