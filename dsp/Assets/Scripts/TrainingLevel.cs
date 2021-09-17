@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
 using System;
@@ -30,6 +30,16 @@ public class TrainingLevel : MonoBehaviour {
 	int count = 0;
 	int count1 = 0;
 	int trainingTask = 0;
+
+	private int foundBool;
+	private int endBool;
+
+	void Awake(){
+		foundBool = 0;
+		endBool = 0;
+		PlayerPrefs.SetInt("foundBool", foundBool);
+		//PlayerPrefs.SetInt("endBool", endBool);
+	}
 
 
 	void Start(){
@@ -94,6 +104,9 @@ public class TrainingLevel : MonoBehaviour {
 		//Go to environment Task
 		PracticeEnvironmentTask();
 		trainingTask = PlayerPrefs.GetInt("trainingTask");
+		foundBool = PlayerPrefs.GetInt("foundBool");
+		// Debug.Log("found bool: " + foundBool);
+		//endBool = PlayerPrefs.GetInt("endBool");
 
 		if(Input.GetKey(KeyCode.T)){
 			// Debug.Log("Clicking T");
@@ -143,6 +156,40 @@ public class TrainingLevel : MonoBehaviour {
 				currTime += Time.deltaTime;
 				file.WriteLine (Math.Round (currTime, 2) + ":  " + playerPos.x + "," + playerPos.z + "," + playerRot.eulerAngles.y);
 				//Debug.Log ("WROTE THE STEP: " + Math.Round (currTime, 2) + ":  " + playerPos.x + "," + playerPos.z);
+			}
+			if (foundBool == 1 && endBool == 0){
+				using (System.IO.StreamWriter file = new System.IO.StreamWriter (directory2, true)) {
+					currTime += Time.deltaTime;
+					file.WriteLine (Math.Round (currTime, 2) + ":  " + cube1.transform.position.x + "," + cube1.transform.position.y + "," + cube1.transform.position.z);
+					endBool = 1;
+					//Debug.Log ("WROTE THE STEP: " + Math.Round (currTime, 2) + ":  " + playerPos.x + "," + playerPos.z);
+				}
+			}
+			else if (foundBool == 2 && endBool == 1){
+				using (System.IO.StreamWriter file = new System.IO.StreamWriter (directory2, true)) {
+					currTime += Time.deltaTime;
+					file.WriteLine (Math.Round (currTime, 2) + ":  " + cube2.transform.position.x + "," + cube2.transform.position.y + "," + cube2.transform.position.z);
+					endBool = 2;
+					//Debug.Log ("WROTE THE STEP: " + Math.Round (currTime, 2) + ":  " + playerPos.x + "," + playerPos.z);
+				}
+			}
+			else if (foundBool == 3 && endBool == 2){
+				using (System.IO.StreamWriter file = new System.IO.StreamWriter (directory2, true)) {
+					currTime += Time.deltaTime;
+					file.WriteLine (Math.Round (currTime, 2) + ":  " + cube3.transform.position.x + "," + cube3.transform.position.y + "," + cube3.transform.position.z);
+					endBool = 3;
+					//Debug.Log ("WROTE THE STEP: " + Math.Round (currTime, 2) + ":  " + playerPos.x + "," + playerPos.z);
+				}
+			}
+			else if (foundBool == 4 && endBool == 3){
+				using (System.IO.StreamWriter file = new System.IO.StreamWriter (directory2, true)) {
+					currTime += Time.deltaTime;
+					file.WriteLine (Math.Round (currTime, 2) + ":  " + cube4.transform.position.x + "," + cube4.transform.position.y + "," + cube4.transform.position.z);
+					endBool = 0;
+					foundBool = 0;
+					PlayerPrefs.SetInt("foundBool",foundBool);
+					//Debug.Log ("WROTE THE STEP: " + Math.Round (currTime, 2) + ":  " + playerPos.x + "," + playerPos.z);
+				}
 			}
 
 	}
