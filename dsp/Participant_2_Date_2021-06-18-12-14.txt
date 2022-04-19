@@ -1,5 +1,0 @@
-ParticipantNo: 2
-Repetition?: Full
-DSPType: 1
-Encoding Tours: 0
-!!1_dsp1_23

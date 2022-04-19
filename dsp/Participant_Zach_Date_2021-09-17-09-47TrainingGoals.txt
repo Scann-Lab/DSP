@@ -1,7 +1,0 @@
-ParticipantNo: Zach
-Controller type: Keyboard and Mouse
-Training Level:
-8.39:  81.3,-13.9,-60.9
-15.15:  1.9,-13.9,-25.3
-21.24:  81.3,-13.9,2.44
-27:  0.5,-13.9,16.3
