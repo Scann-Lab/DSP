@@ -7,23 +7,26 @@ EditorBuildSettings:
   m_Scenes:
   - enabled: 1
     path: Assets/Start Screen.unity
-    guid: 00000000000000000000000000000000
+    guid: cd46072e650d00c4dac56276106191db
   - enabled: 1
     path: Assets/Training Level.unity
-    guid: 00000000000000000000000000000000
+    guid: 907ef3c928ff28c4eb3f1392ce3ddcb4
   - enabled: 1
     path: Assets/Learning - Normal.unity
-    guid: 00000000000000000000000000000000
+    guid: 74819ffe0017e58488a78e2136c764f1
   - enabled: 1
     path: Assets/Learning - Alternate.unity
-    guid: 00000000000000000000000000000000
+    guid: bda89f85e0d23d64e91f9440edfd7cc4
   - enabled: 1
     path: Assets/Pre-Level Screen.unity
-    guid: 00000000000000000000000000000000
+    guid: f80985e3da5d02a4f81f3eeab4e8301e
   - enabled: 1
     path: Assets/Trials - Normal.unity
-    guid: 00000000000000000000000000000000
+    guid: a826279cdcff34be68c82ac68867812b
   - enabled: 1
     path: Assets/Trials - Alternate.unity
-    guid: 00000000000000000000000000000000
+    guid: bb636f653cc6ebd478d3dc9a100c6189
+  - enabled: 1
+    path: Assets/Training Level Timed.unity
+    guid: 08a50f1c3ac72db4f8e0cd6c3c7d7857
   m_configObjects: {}

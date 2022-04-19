@@ -13,6 +13,8 @@ public class FirstPersonScript : MonoBehaviour {
 	string directory;
 
 	int i = 0;
+	int a = 0;
+	int k = 0;
 
 	//Changed speed from 18 to 15
 	float movementSpeed = 15.0f;
@@ -22,7 +24,7 @@ public class FirstPersonScript : MonoBehaviour {
 	public bool writeToDisk = true;
 	Vector3 speed;
 
-	public bool UsingGamePad;
+	int UsingGamePad;
 
 	// Use this for initialization
 	void Start () {
@@ -50,8 +52,10 @@ public class FirstPersonScript : MonoBehaviour {
 					file.WriteLine ("Time for Trials (seconds): " + PlayerPrefs.GetFloat("trialTime"));
 					if(PlayerPrefs.GetInt("UsingGamePad") == 1){
 						file.WriteLine ("Controller type: Gamepad");
-					}else if(PlayerPrefs.GetInt("UsingGamePad") == 0){
+					}else if(PlayerPrefs.GetInt("UsingKeyboard") == 1){
 						file.WriteLine ("Controller type: Keyboard and Mouse");
+					}else if(PlayerPrefs.GetInt("UsingArrow") == 1){
+						file.WriteLine ("Controller type: Arrows Only");
 					}
 					file.WriteLine ("Repetition?: " + GameControl.control.RepType);
 					file.WriteLine ("DSPType: " + GameControl.control.DSPtype);
@@ -74,15 +78,20 @@ public class FirstPersonScript : MonoBehaviour {
 		//Movement Mechanics
 		//rotation
 		i = PlayerPrefs.GetInt("UsingGamePad");
+		a = PlayerPrefs.GetInt("UsingArrow");
+		k = PlayerPrefs.GetInt("UsingKeyboard");
+		// Debug.Log("Using Game Pad value of i: " + i);
 		if(i == 1){
 			//Debug.Log("i is 1");
-			UsingGamePad = true;
-		}else{
+			UsingGamePad = 1;
+		}else if(k == 1){
 			//Debug.Log("i is 0");
-			UsingGamePad = false;
+			UsingGamePad = 0;
+		}else if(a == 1){
+			UsingGamePad = 2;
 		}
 
-		if(UsingGamePad){
+		if(UsingGamePad == 1){
 			float rotLeftRight = Input.GetAxis ("Horizontal_look_joystick") * mouseSensitivity;
 			transform.Rotate (0, rotLeftRight, 0);
 			verticalRotation -= Input.GetAxis ("Vertical_look_joystick") * mouseSensitivity;
@@ -94,7 +103,7 @@ public class FirstPersonScript : MonoBehaviour {
 			float sideSpeed = Input.GetAxis ("Horizontal_walk_joystick") * movementSpeed;
 			speed = new Vector3 (sideSpeed, 0, forwardSpeed);
 			speed = transform.rotation * speed;
-		}else{
+		}else if(UsingGamePad == 0){
 			float rotLeftRight = Input.GetAxis ("Mouse X") * mouseSensitivity;
 			transform.Rotate (0, rotLeftRight, 0);
 			verticalRotation -= Input.GetAxis ("Mouse Y") * mouseSensitivity;
@@ -105,6 +114,23 @@ public class FirstPersonScript : MonoBehaviour {
 			float forwardSpeed = Input.GetAxis ("Vertical") * movementSpeed;
 			float sideSpeed = Input.GetAxis ("Horizontal") * movementSpeed;
 			speed = new Vector3 (sideSpeed, 0, forwardSpeed);
+			speed = transform.rotation * speed;
+		}else if(UsingGamePad == 2){
+			//Set mouse sensitivity lower
+			mouseSensitivity = 1.5f;
+			float rotLeftRight = Input.GetAxis("RightLeftArrowRotate") * mouseSensitivity;
+			// float rotRight = Input.GetAxis("RightArrowRotate") * mouseSensitivity;
+			// transform.Rotate (0,-rotLeft, 0);
+			transform.Rotate(0,rotLeftRight,0);
+			// verticalRotation -= Input.GetAxis ("Vertical_look_joystick") * mouseSensitivity;
+			// verticalRotation = Mathf.Clamp (verticalRotation, -upDownRange, upDownRange);
+			// Camera.main.transform.localRotation = Quaternion.Euler (verticalRotation, 0, 0);
+
+			//movement
+			float forwardSpeed = Input.GetAxis ("UpDownArrowWalk") * movementSpeed;
+			// float forwardSpeedNeg = Input.GetAxis ("DownArrowWalk") * movementSpeed;
+			// float sideSpeed = Input.GetAxis ("Horizontal_walk_joystick") * movementSpeed;
+			speed = new Vector3 (0, 0, forwardSpeed);
 			speed = transform.rotation * speed;
 		}
 

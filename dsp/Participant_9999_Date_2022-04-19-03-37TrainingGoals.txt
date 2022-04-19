@@ -1,0 +1,4 @@
+ParticipantNo: 9999
+Controller type: Keyboard and Mouse
+Training Level:
+Start Time: 7.64:  82.15367,0.04261218,182.9
