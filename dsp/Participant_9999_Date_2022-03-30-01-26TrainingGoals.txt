@@ -1,3 +1,0 @@
-ParticipantNo: 9999
-Controller type: Gamepad
-Training Level:

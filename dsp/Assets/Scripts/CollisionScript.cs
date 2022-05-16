@@ -87,14 +87,16 @@ public class CollisionScript : MonoBehaviour {
 			}
 			//Pressing CTRL+F rolls the next level.
 			if (Input.GetKey (KeyCode.LeftControl) && Input.GetKey (KeyCode.F)) {
-				GameControl.control.rollNextLevel ();
+				// GameControl.control.rollRankingLevel ();
+				UnityEngine.SceneManagement.SceneManager.LoadScene ("Ranking Level");
 			}
 			//Handles the timer.
 			if (GameControl.control.movementLocked == false) {
 				levelTimer -= Time.deltaTime;
 				if (levelTimer < 0) {
 					GameControl.control.movementLocked = true;
-					GameControl.control.rollNextLevel();
+					// GameControl.control.rollRankingLevel();
+					UnityEngine.SceneManagement.SceneManager.LoadScene ("Ranking Level");
 				}
 
 			}
@@ -124,7 +126,8 @@ public class CollisionScript : MonoBehaviour {
 			}
 			if (beenTouched == true) {
 				if (other.gameObject.name == GameControl.control.currentTargetObject) {
-					GameControl.control.rollNextLevel ();
+					// GameControl.control.rollRankingLevel ();
+					UnityEngine.SceneManagement.SceneManager.LoadScene ("Ranking Level");
 				}
 			}
 		}

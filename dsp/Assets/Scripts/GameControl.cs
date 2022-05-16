@@ -1,10 +1,17 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System;
+using UnityEngine.UI;
 
 public class GameControl : MonoBehaviour {
 
 	public static GameControl control;
+
+	//outline objects to get in other scripts
+	GameObject inputFieldGO;
+	GameObject buttonGO;
+	InputField inputField;
+	Button button;
 
 	//Input Variables
 	//Participant identifier info
@@ -87,6 +94,27 @@ public class GameControl : MonoBehaviour {
 		yield return new WaitForSeconds(seconds);
 		UnityEngine.SceneManagement.SceneManager.LoadScene (levelName);
 	}
+
+	// IEnumerator rollRankingLevelCoroutine()
+	// {
+	// 	UnityEngine.SceneManagement.SceneManager.LoadScene ("Ranking Level");
+	// 	yield return new WaitForSeconds(3f);
+	//
+	// 	InputField inputField = gameObject.GetComponent("InputField") as InputField;
+	// 	Button button = gameObject.GetComponent("Button") as Button;
+	//
+	// 	int ranking = int.Parse(inputField.text);
+	// 	if(ranking >= 1 || ranking <= 7)
+	// 	{
+	// 		Debug.Log("Answer is: " + ranking);
+	// 		// Cursor.visible = false;
+	// 		// Cursor.lockState = CursorLockMode.Locked;
+	// 		UnityEngine.SceneManagement.SceneManager.LoadScene ("Pre-Level Screen");
+	// 		// GameControl.control.rollNextLevel ();
+	// 	}else{
+	// 		Debug.Log("Incorrect answer, please try again.");
+	// 	}
+	// }
 
 	public void goToLearning(){
 		//loads alternate or nonalternate learning phase
@@ -193,6 +221,12 @@ public class GameControl : MonoBehaviour {
 			positionListAlt.RemoveAt (i);
 		}
 	}
+
+	// public void rollRankingLevel()
+	// {
+	// 	// UnityEngine.SceneManagement.SceneManager.LoadScene ("Ranking Level");
+	// 	// StartCoroutine(rollRankingLevelCoroutine());
+	// }
 
 	//Awake() occurs before the start of the game. This section creates the gamecontrol object and makes it indestructible.
 	void Awake () {
